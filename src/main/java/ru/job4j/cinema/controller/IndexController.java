@@ -9,4 +9,19 @@ public class IndexController {
     public String index() {
         return "index";
     }
+
+    @GetMapping("/films")
+    public String filmList() {
+        return "films/list";
+    }
+
+    @GetMapping("/films/one")
+    public String filmOne() {
+        return "films/one";
+    }
+
+    @GetMapping("/film-sessions")
+    public String filmSessionList() {
+        return "film-sessions/list";
+    }
 }

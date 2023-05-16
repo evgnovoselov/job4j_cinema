@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- libs -->
+    <link th:href="@{/webjars/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}" rel="stylesheet">
+    <!-- /libs -->
+
+    <title>Кинотеатр</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Cinema</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav me-auto">
+                <a class="nav-link active" aria-current="page" th:href="@{/}">Главная</a>
+                <a class="nav-link" th:href="@{/film-sessions}">Расписание</a>
+                <a class="nav-link" th:href="@{/films}">Кинотека</a>
+            </div>
+            <div class="d-flex" th:href="true">
+                <a class="btn btn-outline-secondary me-3">Регистрация</a>
+                <a class="btn btn-outline-light">Вход</a>
+            </div>
+            <div class="d-flex" th:if="false">
+                <button type="button" class="btn btn-outline-info me-3" disabled>Иван</button>
+                <a class="btn btn-outline-light">Выход</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Железный человек</h1>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img"
+                 aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#868e96"></rect>
+                <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+            </svg>
+        </div>
+        <div class="col-md-8">
+            <dl class="row">
+                <dt class="col-sm-3">Год производства:</dt>
+                <dd class="col-sm-9">2008</dd>
+
+                <dt class="col-sm-3">Жанр:</dt>
+                <dd class="col-sm-9">Фантастика</dd>
+
+                <dt class="col-sm-3">Продолжительность:</dt>
+                <dd class="col-sm-9">121 мин. / 02:01</dd>
+
+                <dt class="col-sm-3">Ограничение по возрасту:</dt>
+                <dd class="col-sm-9">12+</dd>
+            </dl>
+        </div>
+    </div>
+    <h2>Описание</h2>
+    <p>Миллиардер-изобретатель Тони Старк попадает в плен к Афганским террористам, которые пытаются заставить его
+        создать оружие массового поражения. В тайне от своих захватчиков Старк конструирует высокотехнологичную
+        киберброню, которая помогает ему сбежать. Однако по возвращении в США он узнаёт, что в совете директоров его
+        фирмы плетётся заговор, чреватый страшными последствиями. Используя своё последнее изобретение, Старк пытается
+        решить проблемы своей компании радикально...</p>
+</div>
+
+<!-- libs -->
+<script th:src="@{/webjars/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+<!-- /libs -->
+</body>
+</html>

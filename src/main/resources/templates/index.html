@@ -1,15 +1,18 @@
 <!doctype html>
 <html lang="ru" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Кинотеатр</title>
-    <link th:href="@{/webjars/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}" rel="stylesheet">
+<head th:replace="~{fragments/general :: head(_)}">
 </head>
 <body>
-<h1>Главная страница</h1>
+<th:block th:replace="~{fragments/general :: menu('home')}"></th:block>
 
-<script th:src="@{/webjars/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+<div class="container">
+    <h1>Проект Cinema!</h1>
+    <ul>
+        <li><a th:href="@{/film-sessions}">Расписание</a></li>
+        <li><a th:href="@{/films}">Кинотека</a></li>
+    </ul>
+</div>
+
+<th:block th:replace="~{fragments/general :: libsBeforeEndBody}"></th:block>
 </body>
 </html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- libs -->
+    <link th:href="@{/webjars/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}" rel="stylesheet">
+    <!-- /libs -->
+
+    <title th:replace="${title}">Cinema</title>
+</head>
+<body>
+
+<nav th:fragment="menu(active)" class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Cinema</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav me-auto">
+                <a th:with="page='home'" class="nav-link" th:classappend="${page==active ? 'active':''}"
+                   th:aria-current="${page==active ? 'page':''}" th:href="@{/}">Главная</a>
+                <a th:with="page='filmSessions'" class="nav-link" th:classappend="${page==active ? 'active':''}"
+                   th:aria-current="${page==active ? 'page':''}" th:href="@{/film-sessions}">Расписание</a>
+                <a th:with="page='films'" class="nav-link" th:classappend="${page==active ? 'active':''}"
+                   th:aria-current="${page==active ? 'page':''}" th:href="@{/films}">Кинотека</a>
+            </div>
+            <div class="d-flex" th:href="true">
+                <a class="btn btn-outline-secondary me-3">Регистрация</a>
+                <a class="btn btn-outline-light">Вход</a>
+            </div>
+            <div class="d-flex" th:if="false">
+                <button type="button" class="btn btn-outline-info me-3" disabled>Иван</button>
+                <a class="btn btn-outline-light">Выход</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<th:block th:fragment="libsBeforeEndBody">
+    <!-- libs -->
+    <script th:src="@{/webjars/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+    <!-- /libs -->
+</th:block>
+</body>
+</html>

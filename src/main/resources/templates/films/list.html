@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: head(_)}">
+</head>
+<body>
+<th:block th:replace="~{fragments/general :: menu('films')}"></th:block>
+
+<div class="container">
+    <h1>Кинотека</h1>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <a th:href="@{/films/one}">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img"
+                     aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#868e96"></rect>
+                    <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+                </svg>
+            </a>
+        </div>
+        <div class="col-md-8">
+            <h2>Железный человек</h2>
+            <dl class="row">
+                <dt class="col-sm-3">Год производства:</dt>
+                <dd class="col-sm-9">2008</dd>
+
+                <dt class="col-sm-3">Жанр:</dt>
+                <dd class="col-sm-9">Фантастика</dd>
+
+                <dt class="col-sm-3">Продолжительность:</dt>
+                <dd class="col-sm-9">121 мин. / 02:01</dd>
+
+                <dt class="col-sm-3">Ограничение по возрасту:</dt>
+                <dd class="col-sm-9">12+</dd>
+            </dl>
+            <a th:href="@{/films/one}">Подробнее</a>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <a href="#">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img"
+                     aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#868e96"></rect>
+                    <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+                </svg>
+            </a>
+        </div>
+        <div class="col-md-8">
+            <h2>Железный человек</h2>
+            <dl class="row">
+                <dt class="col-sm-3">Год производства:</dt>
+                <dd class="col-sm-9">2008</dd>
+
+                <dt class="col-sm-3">Жанр:</dt>
+                <dd class="col-sm-9">Фантастика</dd>
+
+                <dt class="col-sm-3">Продолжительность:</dt>
+                <dd class="col-sm-9">121 мин. / 02:01</dd>
+
+                <dt class="col-sm-3">Ограничение по возрасту:</dt>
+                <dd class="col-sm-9">12+</dd>
+            </dl>
+            <a href="#">Подробнее</a>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <a href="#">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img"
+                     aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#868e96"></rect>
+                    <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+                </svg>
+            </a>
+        </div>
+        <div class="col-md-8">
+            <h2>Железный человек</h2>
+            <dl class="row">
+                <dt class="col-sm-3">Год производства:</dt>
+                <dd class="col-sm-9">2008</dd>
+
+                <dt class="col-sm-3">Жанр:</dt>
+                <dd class="col-sm-9">Фантастика</dd>
+
+                <dt class="col-sm-3">Продолжительность:</dt>
+                <dd class="col-sm-9">121 мин. / 02:01</dd>
+
+                <dt class="col-sm-3">Ограничение по возрасту:</dt>
+                <dd class="col-sm-9">12+</dd>
+            </dl>
+            <a href="#">Подробнее</a>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <a href="#">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img"
+                     aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#868e96"></rect>
+                    <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+                </svg>
+            </a>
+        </div>
+        <div class="col-md-8">
+            <h2>Железный человек</h2>
+            <dl class="row">
+                <dt class="col-sm-3">Год производства:</dt>
+                <dd class="col-sm-9">2008</dd>
+
+                <dt class="col-sm-3">Жанр:</dt>
+                <dd class="col-sm-9">Фантастика</dd>
+
+                <dt class="col-sm-3">Продолжительность:</dt>
+                <dd class="col-sm-9">121 мин. / 02:01</dd>
+
+                <dt class="col-sm-3">Ограничение по возрасту:</dt>
+                <dd class="col-sm-9">12+</dd>
+            </dl>
+            <a href="#">Подробнее</a>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{fragments/general :: libsBeforeEndBody}"></th:block>
+</body>
+</html>

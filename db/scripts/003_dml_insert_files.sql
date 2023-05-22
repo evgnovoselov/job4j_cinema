@@ -1,0 +1,18 @@
+insert into files(name, path)
+values ('DjangoUnchained.jpeg', 'DjangoUnchained.jpeg'),
+       ('FightClub.jpeg', 'FightClub.jpeg'),
+       ('Intouchables.jpeg', 'Intouchables.jpeg'),
+       ('IronMan.jpeg', 'IronMan.jpeg'),
+       ('Klaus.jpeg', 'Klaus.jpeg'),
+       ('KoeNoKatachi.jpeg', 'KoeNoKatachi.jpeg'),
+       ('Leon.jpeg', 'Leon.jpeg'),
+       ('Rush.jpeg', 'Rush.jpeg'),
+       ('Snatch.jpeg', 'Snatch.jpeg'),
+       ('Stardust.jpeg', 'Stardust.jpeg'),
+       ('TheDarkKnight.jpeg', 'TheDarkKnight.jpeg'),
+       ('TheLionKing.jpeg', 'TheLionKing.jpeg'),
+       ('ThePianist.jpeg', 'ThePianist.jpeg'),
+       ('TheSocialNetwork.jpeg', 'TheSocialNetwork.jpeg'),
+       ('WALLE.jpeg', 'WALLE.jpeg'),
+       ('Whiplash.jpeg', 'Whiplash.jpeg'),
+       ('Zootopia.jpeg', 'Zootopia.jpeg');

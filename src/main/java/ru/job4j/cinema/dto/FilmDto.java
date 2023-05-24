@@ -1,26 +1,16 @@
-package ru.job4j.cinema.model;
+package ru.job4j.cinema.dto;
 
-import java.util.Map;
 import java.util.Objects;
 
-public class Film {
-    public static final Map<String, String> COLUMN_MAPPING = Map.of(
-            "genre_id", "genreId",
-            "minimal_age", "minimalAge",
-            "duration_in_minutes", "durationInMinutes",
-            "file_id", "fileId"
-    );
+public class FilmDto {
     private int id;
     private String name;
     private String description;
     private int year;
-    private int genreId;
+    private String genre;
     private int minimalAge;
     private int durationInMinutes;
     private int fileId;
-
-    public Film() {
-    }
 
     public int getId() {
         return id;
@@ -54,12 +44,12 @@ public class Film {
         this.year = year;
     }
 
-    public int getGenreId() {
-        return genreId;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setGenreId(int genreId) {
-        this.genreId = genreId;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public int getMinimalAge() {
@@ -94,8 +84,8 @@ public class Film {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Film film = (Film) o;
-        return id == film.id;
+        FilmDto filmDto = (FilmDto) o;
+        return id == filmDto.id;
     }
 
     @Override

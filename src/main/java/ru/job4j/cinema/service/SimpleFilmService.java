@@ -26,17 +26,8 @@ public class SimpleFilmService implements FilmService {
         Collection<Film> films = filmRepository.findAll();
         Collection<Genre> genres = genreRepository.findAll();
         Map<Integer, String> genresMap = genres.stream().collect(Collectors.toMap(Genre::getId, Genre::getName));
-        return films.stream().map(film -> {
-            FilmDto filmDto = new FilmDto();
-            filmDto.setId(film.getId());
-            filmDto.setName(film.getName());
-            filmDto.setDescription(filmDto.getDescription());
-            filmDto.setYear(film.getYear());
-            filmDto.setGenre(genresMap.get(film.getGenreId()));
-            filmDto.setMinimalAge(film.getMinimalAge());
-            filmDto.setDurationInMinutes(film.getDurationInMinutes());
-            filmDto.setFileId(film.getFileId());
-            return filmDto;
-        }).toList();
+        return films.stream().map(film -> new FilmDto(film.getId(), film.getName(), film.getDescription(),
+                film.getYear(), genresMap.get(film.getGenreId()), film.getMinimalAge(), film.getDurationInMinutes(),
+                film.getFileId())).toList();
     }
 }

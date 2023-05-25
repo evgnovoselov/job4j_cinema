@@ -10,11 +10,6 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/films/one")
-    public String filmOne() {
-        return "films/one";
-    }
-
     @GetMapping("/film-sessions")
     public String filmSessionList() {
         return "film-sessions/list";

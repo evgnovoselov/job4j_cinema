@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: head(_)}">
+</head>
+<body>
+<th:block th:replace="~{fragments/general :: menu(_)}"></th:block>
+
+<div class="container">
+    <h1>Произошла ошибка</h1>
+    <p class="text-danger" th:text="${message}">Текст ошибки</p>
+    <p>Перейти в раздел:</p>
+    <ul>
+        <li><a th:href="@{/}">Главная</a></li>
+        <li><a th:href="@{/film-sessions}">Расписание</a></li>
+        <li><a th:href="@{/films}">Кинотека</a></li>
+    </ul>
+</div>
+
+<th:block th:replace="~{fragments/general :: libsBeforeEndBody}"></th:block>
+</body>
+</html>

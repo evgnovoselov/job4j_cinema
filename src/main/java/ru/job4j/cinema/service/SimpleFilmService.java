@@ -25,8 +25,7 @@ public class SimpleFilmService implements FilmService {
     @Override
     public Collection<FilmDto> findAll() {
         Collection<Film> films = filmRepository.findAll();
-        Map<Integer, String> genresMap = getGenresMap();
-        return films.stream().map(film -> createFileDto(film, genresMap)).toList();
+        return films.stream().map(film -> createFilmDto(film, genreRepository.findAll())).toList();
     }
 
     @Override
@@ -36,21 +35,11 @@ public class SimpleFilmService implements FilmService {
             return Optional.empty();
         }
         Film film = filmOptional.get();
-        Map<Integer, String> genresMap = getGenresMap();
-        return Optional.of(createFileDto(film, genresMap));
+        return Optional.of(createFilmDto(film, genreRepository.findAll()));
     }
 
-    /**
-     * Получает все жанры представляет их в виде карты.
-     *
-     * @return Map жанров где ключи - genre.id, значения - genres.name.
-     */
-    private Map<Integer, String> getGenresMap() {
-        Collection<Genre> genres = genreRepository.findAll();
-        return genres.stream().collect(Collectors.toMap(Genre::getId, Genre::getName));
-    }
-
-    private static FilmDto createFileDto(Film film, Map<Integer, String> genresMap) {
+    private static FilmDto createFilmDto(Film film, Collection<Genre> genres) {
+        Map<Integer, String> genresMap = genres.stream().collect(Collectors.toMap(Genre::getId, Genre::getName));
         return new FilmDto(film.getId(), film.getName(), film.getDescription(),
                 film.getYear(), genresMap.get(film.getGenreId()), film.getMinimalAge(), film.getDurationInMinutes(),
                 film.getFileId());

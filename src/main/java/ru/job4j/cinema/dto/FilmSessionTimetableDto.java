@@ -1,16 +1,13 @@
 package ru.job4j.cinema.dto;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-public record FilmDto(
+public record FilmSessionTimetableDto(
         int id,
-        String name,
-        String description,
-        int year,
-        String genre,
-        int minimalAge,
-        int durationInMinutes,
-        int fileId
+        int filmId,
+        LocalDateTime startTime,
+        int price
 ) {
     @Override
     public boolean equals(Object o) {
@@ -20,8 +17,8 @@ public record FilmDto(
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        FilmDto filmDto = (FilmDto) o;
-        return id == filmDto.id;
+        FilmSessionTimetableDto that = (FilmSessionTimetableDto) o;
+        return id == that.id;
     }
 
     @Override

@@ -1,16 +1,17 @@
 package ru.job4j.cinema.dto;
 
 import java.util.Objects;
+import java.util.Set;
 
-public record FilmDto(
-        int id,
+public record FilmSessionSetDto(
+        int filmId,
         String name,
-        String description,
         int year,
         String genre,
         int minimalAge,
         int durationInMinutes,
-        int fileId
+        int fileId,
+        Set<FilmSessionTimetableDto> filmSessions
 ) {
     @Override
     public boolean equals(Object o) {
@@ -20,12 +21,12 @@ public record FilmDto(
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        FilmDto filmDto = (FilmDto) o;
-        return id == filmDto.id;
+        FilmSessionSetDto that = (FilmSessionSetDto) o;
+        return filmId == that.filmId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(filmId);
     }
 }

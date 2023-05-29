@@ -9,9 +9,4 @@ public class IndexController {
     public String index() {
         return "index";
     }
-
-    @GetMapping("/film-sessions")
-    public String filmSessionList() {
-        return "film-sessions/list";
-    }
 }

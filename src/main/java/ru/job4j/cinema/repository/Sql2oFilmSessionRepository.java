@@ -8,6 +8,7 @@ import ru.job4j.cinema.model.FilmSession;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 
 @Repository
 public class Sql2oFilmSessionRepository implements FilmSessionRepository {
@@ -25,6 +26,16 @@ public class Sql2oFilmSessionRepository implements FilmSessionRepository {
                     .addParameter("date", date)
                     .addParameter("nextDayDate", date.plusDays(1));
             return query.setColumnMappings(FilmSession.COLUMN_MAPPING).executeAndFetch(FilmSession.class);
+        }
+    }
+
+    @Override
+    public Optional<FilmSession> findById(int id) {
+        try (Connection connection = sql2o.open()) {
+            Query query = connection.createQuery("SELECT * FROM film_sessions WHERE id = :id")
+                    .addParameter("id", id);
+            FilmSession filmSession = query.setColumnMappings(FilmSession.COLUMN_MAPPING).executeAndFetchFirst(FilmSession.class);
+            return Optional.ofNullable(filmSession);
         }
     }
 }

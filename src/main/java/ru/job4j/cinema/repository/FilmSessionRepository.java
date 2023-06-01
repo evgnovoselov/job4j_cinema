@@ -4,7 +4,10 @@ import ru.job4j.cinema.model.FilmSession;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 
 public interface FilmSessionRepository {
     Collection<FilmSession> findAllByDate(LocalDate date);
+
+    Optional<FilmSession> findById(int id);
 }

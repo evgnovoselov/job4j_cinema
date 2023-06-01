@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: head(_)}">
+</head>
+<body>
+<th:block th:replace="~{fragments/general :: menu('filmSessions')}"></th:block>
+
+<div class="container">
+    <h1>Покупка билета</h1>
+    <h2><span th:text="${filmSession.film.name}">Звездная пыль</span>, начало сеанса <u
+            th:text="${#temporals.format(filmSession.startTime,'dd.MM.yyyy hh:mm')}">29.05.2023 11:30</u></h2>
+    <p>Доступные места:</p>
+    <table class="text-center mb-3">
+        <thead>
+        <tr>
+            <th th:colspan="${placesSize} + 2">
+                <div class="mb-3 border-bottom border-3 border-secondary">Экран</div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="border">
+            <td></td>
+            <td class="border" th:each="place : ${mapPlaces[0]}" th:text="${placeStat.count}">1</td>
+            <td></td>
+        </tr>
+        <tr class="border" th:each="row : ${mapPlaces}">
+            <td th:text="${rowStat.count}">1</td>
+            <td class="border p-1" th:each="place : ${row}"
+                th:title="${rowStat.count}+' - Ряд, '+${placeStat.count}+' - Место. '+(${place}?'Занято':'Свободно')">
+                <i class="bi" th:classappend="${place} ? 'bi-square-fill':'bi-square'"></i>
+            </td>
+            <td th:text="${rowStat.count}">1</td>
+        </tr>
+        <tr class="border">
+            <td></td>
+            <td class="border" th:each="place : ${mapPlaces[0]}" th:text="${placeStat.count}">1</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <ul class="list-unstyled">
+        <li><i class="bi bi-square"></i> - свободно</li>
+        <li><i class="bi bi-square-fill"></i> - занято</li>
+    </ul>
+    <p>Выберите место:</p>
+    <form th:object="${ticket}" th:action="@{/film-sessions/buy-ticket}" method="post">
+        <input type="hidden" th:field="*{sessionId}">
+        <input type="hidden" th:field="*{userId}">
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="selectRowSeat" class="form-label">Выберете ряд</label>
+                    <select class="form-select" id="selectRowSeat" aria-label="Select row seat" th:field="*{rowNumber}">
+                        <option th:each="row : ${mapPlaces}"
+                                th:value="${rowStat.index}"
+                                th:text="${rowStat.count}">1
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="selectPlace" class="form-label">Выберете место</label>
+                    <select class="form-select" id="selectPlace" aria-label="Select place" th:field="*{placeNumber}">
+                        <option th:each="place : ${mapPlaces[0]}"
+                                th:value="${placeStat.index}"
+                                th:text="${placeStat.count}">1
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Купить</button>
+        <a th:href="@{/film-sessions(date=${#temporals.format(filmSession.startTime, 'yyyy-MM-dd')})}"
+           class="btn btn-danger" role="button">Отменить</a>
+    </form>
+</div>
+
+<th:block th:replace="~{fragments/general :: libsBeforeEndBody}"></th:block>
+</body>
+</html>

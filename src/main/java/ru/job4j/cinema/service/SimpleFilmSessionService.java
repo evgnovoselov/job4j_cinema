@@ -1,14 +1,13 @@
 package ru.job4j.cinema.service;
 
 import org.springframework.stereotype.Service;
+import ru.job4j.cinema.dto.FilmSessionDto;
 import ru.job4j.cinema.dto.FilmSessionSetDto;
 import ru.job4j.cinema.dto.FilmSessionTimetableDto;
 import ru.job4j.cinema.model.Film;
 import ru.job4j.cinema.model.FilmSession;
 import ru.job4j.cinema.model.Genre;
-import ru.job4j.cinema.repository.FilmRepository;
-import ru.job4j.cinema.repository.FilmSessionRepository;
-import ru.job4j.cinema.repository.GenreRepository;
+import ru.job4j.cinema.repository.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -19,11 +18,15 @@ public class SimpleFilmSessionService implements FilmSessionService {
     private final FilmSessionRepository filmSessionRepository;
     private final GenreRepository genreRepository;
     private final FilmRepository filmRepository;
+    private final HallRepository hallRepository;
+    private final TicketRepository ticketRepository;
 
-    public SimpleFilmSessionService(FilmSessionRepository filmSessionRepository, GenreRepository genreRepository, FilmRepository filmRepository) {
+    public SimpleFilmSessionService(FilmSessionRepository filmSessionRepository, GenreRepository genreRepository, FilmRepository filmRepository, HallRepository hallRepository, TicketRepository ticketRepository) {
         this.filmSessionRepository = filmSessionRepository;
         this.genreRepository = genreRepository;
         this.filmRepository = filmRepository;
+        this.hallRepository = hallRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     @Override
@@ -98,5 +101,24 @@ public class SimpleFilmSessionService implements FilmSessionService {
                             return value;
                         }
                 ));
+    }
+
+    @Override
+    public Optional<FilmSessionDto> findById(int id) {
+        Optional<FilmSession> filmSessionOptional = filmSessionRepository.findById(id);
+        if (filmSessionOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        FilmSession filmSession = filmSessionOptional.get();
+        FilmSessionDto filmSessionDto = new FilmSessionDto(
+                filmSession.getId(),
+                filmRepository.findById(filmSession.getFilmId()).orElseThrow(),
+                hallRepository.findById(filmSession.getHallsId()).orElseThrow(),
+                filmSession.getStartTime(),
+                filmSession.getEndTime(),
+                filmSession.getPrice(),
+                ticketRepository.findAllBySessionId(filmSession.getId())
+        );
+        return Optional.of(filmSessionDto);
     }
 }

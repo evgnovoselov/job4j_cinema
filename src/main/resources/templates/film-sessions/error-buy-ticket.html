@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: head(_)}">
+</head>
+<body>
+<th:block th:replace="~{fragments/general :: menu('filmSessions')}"></th:block>
+
+<div class="container">
+    <h1>Покупка билета</h1>
+    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}">
+        Произошла ошибка.
+    </div>
+    <p>Пожалуйста вернитесь на страницу сеанса и выберите другое место.</p>
+    <a class="btn btn-primary" th:href="@{/film-sessions/{id}(id=${ticket.sessionId})}">Вернуться к странице сеанса</a>
+</div>
+
+<th:block th:replace="~{fragments/general :: libsBeforeEndBody}"></th:block>
+</body>
+</html>

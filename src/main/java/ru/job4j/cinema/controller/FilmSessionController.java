@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.job4j.cinema.dto.FilmSessionDto;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.service.FilmSessionService;
+import ru.job4j.cinema.service.TicketService;
 import ru.job4j.cinema.utility.PlaceUtility;
 
 import java.time.LocalDate;
@@ -15,9 +16,11 @@ import java.util.Optional;
 @RequestMapping("/film-sessions")
 public class FilmSessionController {
     private final FilmSessionService filmSessionService;
+    private final TicketService ticketService;
 
-    public FilmSessionController(FilmSessionService filmSessionService) {
+    public FilmSessionController(FilmSessionService filmSessionService, TicketService ticketService) {
         this.filmSessionService = filmSessionService;
+        this.ticketService = ticketService;
     }
 
     @GetMapping
@@ -49,7 +52,20 @@ public class FilmSessionController {
     }
 
     @PostMapping("/buy-ticket")
-    public String processBuyTicket(@ModelAttribute Ticket ticket) {
-        return "redirect:/film-sessions";
+    public String processBuyTicket(@ModelAttribute Ticket ticket, Model model) {
+        FilmSessionDto filmSessionDto;
+        try {
+            Optional<Ticket> ticketOptional = ticketService.save(ticket);
+            if (ticketOptional.isEmpty()) {
+                throw new IllegalArgumentException("Данное место уже занято.");
+            }
+            filmSessionDto = filmSessionService.findById(ticket.getSessionId()).orElseThrow();
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "film-sessions/error-buy-ticket";
+        }
+        model.addAttribute("ticket", ticket);
+        model.addAttribute("filmSession", filmSessionDto);
+        return "film-sessions/success-buy-ticket";
     }
 }

@@ -7,7 +7,9 @@
 
 <div class="container">
     <h1>Произошла ошибка</h1>
-    <p class="text-danger" th:text="${message}">Текст ошибки</p>
+    <div class="alert alert-danger" role="alert" th:if="${message}" th:text="${message}">
+        Произошла ошибка.
+    </div>
     <p>Перейти в раздел:</p>
     <ul>
         <li><a th:href="@{/}">Главная</a></li>

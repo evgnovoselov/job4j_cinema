@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: head(_)}">
+</head>
+<body>
+<th:block th:replace="~{fragments/general :: menu('filmSessions')}"></th:block>
+
+<div class="container">
+    <h1>Покупка билета</h1>
+    <div class="alert alert-success" role="alert">
+        Вы успешно купили билет.
+    </div>
+    <h2>Информация о билете:</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <tbody>
+        <tr>
+            <th scope="row">Фильм</th>
+            <td th:text="${filmSession.film.name}">Значение</td>
+        </tr>
+        <tr>
+            <th scope="row">Продолжительность фильма</th>
+            <td th:text="${filmSession.film.durationInMinutes} + ' мин.'">Значение</td>
+        </tr>
+        <tr>
+            <th scope="row">Ограничение по возрасту</th>
+            <td th:text="${filmSession.film.minimalAge} + '+'">Значение</td>
+        </tr>
+        <tr>
+            <th scope="row">Начало</th>
+            <td th:text="${#temporals.format(filmSession.startTime, 'dd.MM.yyyy hh:mm')}">Значение</td>
+        </tr>
+        <tr>
+            <th scope="row">Зал</th>
+            <td th:text="${filmSession.hall.name}">Значение</td>
+        </tr>
+        <tr>
+            <th scope="row">Ряд</th>
+            <td th:text="${ticket.rowNumber} + 1">Значение</td>
+        </tr>
+        <tr>
+            <th scope="row">Место</th>
+            <td th:text="${ticket.placeNumber} + 1">Значение</td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary" th:href="@{/film-sessions/{id}(id=${ticket.sessionId})}">Вернуться к странице сеанса</a>
+</div>
+
+<th:block th:replace="~{fragments/general :: libsBeforeEndBody}"></th:block>
+</body>
+</html>

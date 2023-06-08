@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: head(_)}">
+</head>
+<body>
+<th:block th:replace="~{fragments/general :: menu(_)}"></th:block>
+
+<div class="container">
+    <h1>Аутентификация пользователя</h1>
+    <form th:action="@{/users/login}" method="post">
+        <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}">
+            A simple danger alert—check it out!
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Почта</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Пароль</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+        <a class="btn btn-secondary" role="button" th:href="@{/users/register}">Регистрация</a>
+    </form>
+</div>
+
+<th:block th:replace="~{fragments/general :: libsBeforeEndBody}"></th:block>
+</body>
+</html>

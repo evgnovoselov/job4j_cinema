@@ -57,7 +57,7 @@ public class FilmSessionController {
         try {
             Optional<Ticket> ticketOptional = ticketService.save(ticket);
             if (ticketOptional.isEmpty()) {
-                throw new IllegalArgumentException("Данное место уже занято.");
+                throw new IllegalArgumentException("Не удалось приобрести билет на заданное место. Вероятно оно уже занято. Перейдите на страницу бронирования билетов и попробуйте снова.");
             }
             filmSessionDto = filmSessionService.findById(ticket.getSessionId()).orElseThrow();
         } catch (Exception e) {

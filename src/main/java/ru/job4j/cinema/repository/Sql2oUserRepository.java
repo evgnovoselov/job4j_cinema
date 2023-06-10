@@ -50,4 +50,14 @@ public class Sql2oUserRepository implements UserRepository {
             return Optional.ofNullable(user);
         }
     }
+
+    @Override
+    public Optional<User> findById(int id) {
+        try (Connection connection = sql2o.open()) {
+            Query query = connection.createQuery("SELECT * FROM users WHERE id = :id")
+                    .addParameter("id", id);
+            User user = query.setColumnMappings(User.COLUMN_MAPPING).executeAndFetchFirst(User.class);
+            return Optional.ofNullable(user);
+        }
+    }
 }

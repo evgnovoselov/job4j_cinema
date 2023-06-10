@@ -41,6 +41,14 @@
             <th scope="row">Место</th>
             <td th:text="${ticket.placeNumber} + 1">Значение</td>
         </tr>
+        <tr>
+            <th scope="row">Имя владельца</th>
+            <td th:text="${user.fullName}">Значение</td>
+        </tr>
+        <tr>
+            <th scope="row">Идентификатор владельца</th>
+            <td th:text="${user.id}">Значение</td>
+        </tr>
         </tbody>
     </table>
     <a class="btn btn-primary" th:href="@{/film-sessions/{id}(id=${ticket.sessionId})}">Вернуться к странице сеанса</a>

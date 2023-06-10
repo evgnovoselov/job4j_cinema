@@ -4,9 +4,11 @@ import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.FilmSession;
 import ru.job4j.cinema.model.Hall;
 import ru.job4j.cinema.model.Ticket;
+import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.repository.FilmSessionRepository;
 import ru.job4j.cinema.repository.HallRepository;
 import ru.job4j.cinema.repository.TicketRepository;
+import ru.job4j.cinema.repository.UserRepository;
 
 import java.util.Optional;
 
@@ -15,15 +17,17 @@ public class SimpleTicketService implements TicketService {
     private final TicketRepository ticketRepository;
     private final FilmSessionRepository filmSessionRepository;
     private final HallRepository hallRepository;
+    private final UserRepository userRepository;
 
     public SimpleTicketService(
             TicketRepository ticketRepository,
             FilmSessionRepository filmSessionRepository,
-            HallRepository hallRepository
-    ) {
+            HallRepository hallRepository,
+            UserRepository userRepository) {
         this.ticketRepository = ticketRepository;
         this.filmSessionRepository = filmSessionRepository;
         this.hallRepository = hallRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -47,6 +51,10 @@ public class SimpleTicketService implements TicketService {
         }
         if (ticket.getPlaceNumber() < 0 || ticket.getPlaceNumber() >= hall.getPlaceCount()) {
             throw new IllegalArgumentException("Заданное в билете место не доступно в зале.");
+        }
+        Optional<User> userOptional = userRepository.findById(ticket.getUserId());
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("Покупатель билета не зарегистрирован в системе.");
         }
     }
 }

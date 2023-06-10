@@ -50,7 +50,7 @@ public class FilmControllerTest {
         Collection<FilmDto> actualFilmDtoList = (Collection<FilmDto>) model.getAttribute("films");
 
         assertThat(view).isEqualTo("films/list");
-        assertThat(actualFilmDtoList).isEqualTo(filmDtoList);
+        assertThat(actualFilmDtoList).usingRecursiveComparison().isEqualTo(filmDtoList);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class FilmControllerTest {
         FilmDto actualFilmDto = (FilmDto) model.getAttribute("film");
 
         assertThat(view).isEqualTo("films/one");
-        assertThat(actualFilmDto).isEqualTo(filmDto);
+        assertThat(actualFilmDto).usingRecursiveComparison().isEqualTo(filmDto);
     }
 
     @Test

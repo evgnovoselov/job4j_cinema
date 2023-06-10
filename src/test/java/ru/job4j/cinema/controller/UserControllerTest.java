@@ -42,7 +42,7 @@ public class UserControllerTest {
         User userSession = (User) session.getAttribute("user");
 
         assertThat(view).isEqualTo("redirect:/");
-        assertThat(userSession).isEqualTo(user);
+        assertThat(userSession).usingRecursiveComparison().isEqualTo(user);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class UserControllerTest {
         User userSession = (User) session.getAttribute("user");
 
         assertThat(view).isEqualTo("redirect:/");
-        assertThat(userSession).isEqualTo(user);
+        assertThat(userSession).usingRecursiveComparison().isEqualTo(user);
     }
 
     @Test

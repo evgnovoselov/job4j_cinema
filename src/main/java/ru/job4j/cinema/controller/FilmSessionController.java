@@ -39,7 +39,7 @@ public class FilmSessionController {
     }
 
     @GetMapping("/{id}")
-    public String getById(Model model, @PathVariable int id, HttpSession session) {
+    public String getById(Model model, @PathVariable int id) {
         Optional<FilmSessionDto> filmSessionDtoOptional = filmSessionService.findById(id);
         if (filmSessionDtoOptional.isEmpty()) {
             model.addAttribute("message", "Данный сеанс фильма не найден в системе.");
@@ -47,10 +47,6 @@ public class FilmSessionController {
         }
         Ticket ticket = new Ticket();
         ticket.setSessionId(filmSessionDtoOptional.get().id());
-        User user = (User) session.getAttribute("user");
-        if (user != null) {
-            ticket.setUserId(user.getId());
-        }
         model.addAttribute("ticket", ticket);
         model.addAttribute("filmSession", filmSessionDtoOptional.get());
         int[][] availablePlaces = PlaceUtility.makeMapAvailablePlaces(filmSessionDtoOptional.get());
@@ -60,11 +56,13 @@ public class FilmSessionController {
     }
 
     @PostMapping("/buy-ticket")
-    public String processBuyTicket(@ModelAttribute Ticket ticket, Model model) {
+    public String processBuyTicket(@ModelAttribute Ticket ticket, Model model, HttpSession session) {
         FilmSessionDto filmSessionDto;
         Optional<Ticket> ticketOptional;
         Optional<User> userOptional;
+        User user = (User) session.getAttribute("user");
         try {
+            ticket.setUserId(user != null ? user.getId() : 0);
             ticketOptional = ticketService.save(ticket);
             userOptional = userService.findById(ticket.getUserId());
             if (ticketOptional.isEmpty() || userOptional.isEmpty()) {

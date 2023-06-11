@@ -46,7 +46,6 @@
     <p>Выберите место:</p>
     <form th:object="${ticket}" th:action="@{/film-sessions/buy-ticket}" method="post">
         <input type="hidden" th:field="*{sessionId}">
-        <input type="hidden" th:field="*{userId}">
         <div class="row">
             <div class="col">
                 <div class="mb-3">

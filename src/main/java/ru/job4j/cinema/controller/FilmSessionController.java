@@ -59,13 +59,12 @@ public class FilmSessionController {
     public String processBuyTicket(@ModelAttribute Ticket ticket, Model model, HttpSession session) {
         FilmSessionDto filmSessionDto;
         Optional<Ticket> ticketOptional;
-        Optional<User> userOptional;
         User user = (User) session.getAttribute("user");
         try {
             ticket.setUserId(user != null ? user.getId() : 0);
             ticketOptional = ticketService.save(ticket);
-            userOptional = userService.findById(ticket.getUserId());
-            if (ticketOptional.isEmpty() || userOptional.isEmpty()) {
+            user = userService.findById(ticket.getUserId()).orElse(new User(0, "Гость", "", ""));
+            if (ticketOptional.isEmpty()) {
                 throw new IllegalArgumentException("Не удалось приобрести билет на заданное место. Вероятно оно уже занято. Перейдите на страницу бронирования билетов и попробуйте снова.");
             }
             filmSessionDto = filmSessionService.findById(ticket.getSessionId()).orElseThrow();
@@ -75,7 +74,7 @@ public class FilmSessionController {
         }
         model.addAttribute("ticket", ticketOptional.get());
         model.addAttribute("filmSession", filmSessionDto);
-        model.addAttribute("user", userOptional.get());
+        model.addAttribute("user", user);
         return "film-sessions/success-buy-ticket";
     }
 }

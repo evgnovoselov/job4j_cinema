@@ -8,6 +8,7 @@ import org.sql2o.Query;
 import org.sql2o.Sql2o;
 import ru.job4j.cinema.model.User;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -58,6 +59,24 @@ public class Sql2oUserRepository implements UserRepository {
                     .addParameter("id", id);
             User user = query.setColumnMappings(User.COLUMN_MAPPING).executeAndFetchFirst(User.class);
             return Optional.ofNullable(user);
+        }
+    }
+
+    @Override
+    public Collection<User> findAll() {
+        try (Connection connection = sql2o.open()) {
+            Query query = connection.createQuery("SELECT * FROM users");
+            return query.setColumnMappings(User.COLUMN_MAPPING).executeAndFetch(User.class);
+        }
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        try (Connection connection = sql2o.open()) {
+            Query query = connection.createQuery("DELETE FROM users WHERE id = :id")
+                    .addParameter("id", id);
+            int affectedRows = query.executeUpdate().getResult();
+            return affectedRows > 0;
         }
     }
 }

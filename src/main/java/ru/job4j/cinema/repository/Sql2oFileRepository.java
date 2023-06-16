@@ -6,6 +6,7 @@ import org.sql2o.Query;
 import org.sql2o.Sql2o;
 import ru.job4j.cinema.model.File;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -17,12 +18,43 @@ public class Sql2oFileRepository implements FileRepository {
     }
 
     @Override
+    public File save(File file) {
+        try (Connection connection = sql2o.open()) {
+            String sql = "INSERT INTO files(name, path) VALUES (:name, :path)";
+            Query query = connection.createQuery(sql, true)
+                    .addParameter("name", file.getName())
+                    .addParameter("path", file.getPath());
+            int generatedId = query.executeUpdate().getKey(Integer.class);
+            file.setId(generatedId);
+            return file;
+        }
+    }
+
+    @Override
+    public Collection<File> findAll() {
+        try (Connection connection = sql2o.open()) {
+            Query query = connection.createQuery("SELECT * FROM files");
+            return query.executeAndFetch(File.class);
+        }
+    }
+
+    @Override
     public Optional<File> findById(int id) {
         try (Connection connection = sql2o.open()) {
             Query query = connection.createQuery("SELECT * FROM files WHERE id=:id")
                     .addParameter("id", id);
             File file = query.executeAndFetchFirst(File.class);
             return Optional.ofNullable(file);
+        }
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        try (Connection connection = sql2o.open()) {
+            Query query = connection.createQuery("DELETE FROM files WHERE id = :id")
+                    .addParameter("id", id);
+            int affectedRows = query.executeUpdate().getResult();
+            return affectedRows > 0;
         }
     }
 }

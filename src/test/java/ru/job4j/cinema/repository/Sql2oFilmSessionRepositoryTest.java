@@ -23,6 +23,7 @@ public class Sql2oFilmSessionRepositoryTest {
     private static Hall testHall;
     private static Genre testGenre;
     private static File testFile;
+    private static LocalDateTime testTime = LocalDateTime.of(2023, 8, 7, 8, 0);
 
     @BeforeAll
     public static void beforeAll() throws IOException {
@@ -75,13 +76,13 @@ public class Sql2oFilmSessionRepositoryTest {
     }
 
     private static FilmSession makeFilmSession(int seed) {
-        LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        LocalDateTime time = testTime.truncatedTo(ChronoUnit.MINUTES);
         return new FilmSession() {{
             setId(0);
             setFilmId(testFilm.getId());
             setHallsId(testHall.getId());
-            setStartTime(now.plusHours(seed % 10));
-            setEndTime(now.plusHours(1 + (seed % 10)));
+            setStartTime(time.plusHours(seed % 10));
+            setEndTime(time.plusHours(1 + (seed % 10)));
             setPrice(100 + (seed % 100));
         }};
     }
@@ -104,7 +105,7 @@ public class Sql2oFilmSessionRepositoryTest {
         filmSession1.setEndTime(filmSession1.getEndTime().plusDays(1));
         sql2oFilmSessionRepository.save(filmSession1);
         FilmSession filmSession2 = sql2oFilmSessionRepository.save(makeFilmSession(3));
-        Collection<FilmSession> filmSessions = sql2oFilmSessionRepository.findAllByDate(LocalDate.now());
+        Collection<FilmSession> filmSessions = sql2oFilmSessionRepository.findAllByDate(testTime.toLocalDate());
 
         assertThat(filmSessions).usingRecursiveComparison().isEqualTo(List.of(filmSession, filmSession2));
     }
@@ -112,7 +113,7 @@ public class Sql2oFilmSessionRepositoryTest {
     @Test
     public void whenDontSaveThenNothingFound() {
         assertThat(sql2oFilmSessionRepository.findAll()).isEqualTo(Collections.emptyList());
-        assertThat(sql2oFilmSessionRepository.findAllByDate(LocalDate.now())).isEqualTo(Collections.emptyList());
+        assertThat(sql2oFilmSessionRepository.findAllByDate(testTime.toLocalDate())).isEqualTo(Collections.emptyList());
         assertThat(sql2oFilmSessionRepository.findById(1)).isEqualTo(Optional.empty());
     }
 

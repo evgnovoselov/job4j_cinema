@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface FilmSessionRepository {
-    Optional<FilmSession> save(FilmSession filmSession);
+    FilmSession save(FilmSession filmSession);
 
     Collection<FilmSession> findAll();
 

@@ -93,7 +93,7 @@ public class Sql2oFilmRepositoryTest {
     }
 
     @Test
-    public void whenDeleteThenGetEmptyOptional() {
+    public void whenDeleteThenGetEmptyList() {
         Film film = sql2oFilmRepository.save(makeFilm(1));
 
         boolean isDeleted = sql2oFilmRepository.deleteById(film.getId());

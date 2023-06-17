@@ -80,7 +80,7 @@ public class Sql2oGenreRepositoryTest {
     }
 
     @Test
-    public void whenDeleteThenGetEmptyOptional() {
+    public void whenDeleteThenGetEmptyList() {
         Genre genre = sql2oGenreRepository.save(new Genre(0, "name")).orElseThrow();
 
         boolean isDeleted = sql2oGenreRepository.deleteById(genre.getId());

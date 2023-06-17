@@ -19,8 +19,22 @@ public class Sql2oFilmSessionRepository implements FilmSessionRepository {
     }
 
     @Override
-    public Optional<FilmSession> save(FilmSession filmSession) {
-        return Optional.empty();
+    public FilmSession save(FilmSession filmSession) {
+        try (Connection connection = sql2o.open()) {
+            String sql = """
+                    INSERT INTO film_sessions (film_id, halls_id, start_time, end_time, price)
+                    VALUES (:filmId, :hallsId, :startTime, :endTime, :price)
+                    """;
+            Query query = connection.createQuery(sql, true)
+                    .addParameter("filmId", filmSession.getFilmId())
+                    .addParameter("hallsId", filmSession.getHallsId())
+                    .addParameter("startTime", filmSession.getStartTime())
+                    .addParameter("endTime", filmSession.getEndTime())
+                    .addParameter("price", filmSession.getPrice());
+            int generatedId = query.executeUpdate().getKey(Integer.class);
+            filmSession.setId(generatedId);
+            return filmSession;
+        }
     }
 
     @Override

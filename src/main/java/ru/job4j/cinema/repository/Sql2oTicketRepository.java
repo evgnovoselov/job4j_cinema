@@ -42,11 +42,29 @@ public class Sql2oTicketRepository implements TicketRepository {
     }
 
     @Override
+    public Collection<Ticket> findAll() {
+        try (Connection connection = sql2o.open()) {
+            Query query = connection.createQuery("SELECT * FROM tickets");
+            return query.setColumnMappings(Ticket.COLUMN_MAPPING).executeAndFetch(Ticket.class);
+        }
+    }
+
+    @Override
     public Collection<Ticket> findAllBySessionId(int sessionId) {
         try (Connection connection = sql2o.open()) {
             Query query = connection.createQuery("SELECT * FROM tickets WHERE session_id = :sessionId")
                     .addParameter("sessionId", sessionId);
             return query.setColumnMappings(Ticket.COLUMN_MAPPING).executeAndFetch(Ticket.class);
+        }
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        try (Connection connection = sql2o.open()) {
+            Query query = connection.createQuery("DELETE FROM tickets WHERE id = :id")
+                    .addParameter("id", id);
+            int affectedRows = query.executeUpdate().getResult();
+            return affectedRows > 0;
         }
     }
 }

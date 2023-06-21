@@ -4,16 +4,16 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.sql2o.Sql2o;
-import ru.job4j.cinema.configuration.DataSourceConfiguration;
 import ru.job4j.cinema.model.File;
 import ru.job4j.cinema.model.Film;
-import ru.job4j.cinema.model.FilmSession;
 import ru.job4j.cinema.model.Genre;
+import ru.job4j.cinema.repository.utility.Sql2oRepositoryTestUtility;
 
-import javax.sql.DataSource;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,34 +24,15 @@ public class Sql2oFilmRepositoryTest {
 
     @BeforeAll
     static void beforeAll() throws IOException {
-        Properties properties = new Properties();
-        try (InputStream inputStream = Sql2oFilmRepositoryTest.class.getClassLoader().getResourceAsStream("connection.properties")) {
-            properties.load(inputStream);
-        }
-        String url = properties.getProperty("datasource.url");
-        String username = properties.getProperty("datasource.username");
-        String password = properties.getProperty("datasource.password");
-        DataSourceConfiguration configuration = new DataSourceConfiguration();
-        DataSource dataSource = configuration.connectionPool(url, username, password);
-        Sql2o sql2o = configuration.databaseClient(dataSource);
+        Sql2o sql2o = Sql2oRepositoryTestUtility.getSql2o();
+        Sql2oRepositoryTestUtility.cleanDatabase(sql2o);
         sql2oFilmRepository = new Sql2oFilmRepository(sql2o);
-        Sql2oFilmSessionRepository sql2oFilmSessionRepository = new Sql2oFilmSessionRepository(sql2o);
-        sql2oFilmSessionRepository.findAll().stream().map(FilmSession::getId).forEach(sql2oFilmSessionRepository::deleteById);
-        Sql2oGenreRepository sql2oGenreRepository = new Sql2oGenreRepository(sql2o);
-        Sql2oFileRepository sql2oFileRepository = new Sql2oFileRepository(sql2o);
-        deleteAll();
-        sql2oGenreRepository.findAll().stream().map(Genre::getId).forEach(sql2oGenreRepository::deleteById);
-        sql2oFileRepository.findAll().stream().map(File::getId).forEach(sql2oFileRepository::deleteById);
-        testGenre = sql2oGenreRepository.save(new Genre(0, "genreName")).orElseThrow();
-        testFile = sql2oFileRepository.save(new File(0, "name", "path"));
+        testGenre = new Sql2oGenreRepository(sql2o).save(new Genre(0, "genreName")).orElseThrow();
+        testFile = new Sql2oFileRepository(sql2o).save(new File(0, "name", "path")).orElseThrow();
     }
 
     @AfterEach
     public void tearDown() {
-        deleteAll();
-    }
-
-    private static void deleteAll() {
         sql2oFilmRepository.findAll().stream().map(Film::getId).forEach(sql2oFilmRepository::deleteById);
     }
 

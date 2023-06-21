@@ -8,5 +8,9 @@ import java.util.Optional;
 public interface TicketRepository {
     Optional<Ticket> save(Ticket ticket);
 
+    Collection<Ticket> findAll();
+
     Collection<Ticket> findAllBySessionId(int sessionId);
+
+    boolean deleteById(int id);
 }

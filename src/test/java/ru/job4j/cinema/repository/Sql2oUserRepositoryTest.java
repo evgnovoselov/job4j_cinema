@@ -4,13 +4,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.sql2o.Sql2o;
-import ru.job4j.cinema.configuration.DataSourceConfiguration;
 import ru.job4j.cinema.model.User;
+import ru.job4j.cinema.repository.utility.Sql2oRepositoryTestUtility;
 
-import javax.sql.DataSource;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,25 +20,14 @@ public class Sql2oUserRepositoryTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        Properties properties = new Properties();
-        try (InputStream inputStream = Sql2oUserRepositoryTest.class.getClassLoader().getResourceAsStream("connection.properties")) {
-            properties.load(inputStream);
-        }
-        String url = properties.getProperty("datasource.url");
-        String username = properties.getProperty("datasource.username");
-        String password = properties.getProperty("datasource.password");
-        DataSourceConfiguration configuration = new DataSourceConfiguration();
-        DataSource dataSource = configuration.connectionPool(url, username, password);
-        Sql2o sql2o = configuration.databaseClient(dataSource);
+        Sql2o sql2o = Sql2oRepositoryTestUtility.getSql2o();
+        Sql2oRepositoryTestUtility.cleanDatabase(sql2o);
         sql2oUserRepository = new Sql2oUserRepository(sql2o);
     }
 
     @AfterEach
     public void tearDown() {
-        Collection<User> users = sql2oUserRepository.findAll();
-        for (User user : users) {
-            sql2oUserRepository.deleteById(user.getId());
-        }
+        sql2oUserRepository.findAll().stream().map(User::getId).forEach(sql2oUserRepository::deleteById);
     }
 
     @Test

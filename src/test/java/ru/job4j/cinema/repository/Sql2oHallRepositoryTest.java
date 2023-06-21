@@ -4,14 +4,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.sql2o.Sql2o;
-import ru.job4j.cinema.configuration.DataSourceConfiguration;
-import ru.job4j.cinema.model.FilmSession;
 import ru.job4j.cinema.model.Hall;
+import ru.job4j.cinema.repository.utility.Sql2oRepositoryTestUtility;
 
-import javax.sql.DataSource;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,29 +20,14 @@ public class Sql2oHallRepositoryTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        Properties properties = new Properties();
-        try (InputStream inputStream = Sql2oHallRepositoryTest.class.getClassLoader().getResourceAsStream("connection.properties")) {
-            properties.load(inputStream);
-        }
-        String url = properties.getProperty("datasource.url");
-        String username = properties.getProperty("datasource.username");
-        String password = properties.getProperty("datasource.password");
-        DataSourceConfiguration configuration = new DataSourceConfiguration();
-        DataSource dataSource = configuration.connectionPool(url, username, password);
-        Sql2o sql2o = configuration.databaseClient(dataSource);
-        Sql2oFilmSessionRepository sql2oFilmSessionRepository = new Sql2oFilmSessionRepository(sql2o);
-        sql2oFilmSessionRepository.findAll().stream().map(FilmSession::getId).forEach(sql2oFilmSessionRepository::deleteById);
+        Sql2o sql2o = Sql2oRepositoryTestUtility.getSql2o();
+        Sql2oRepositoryTestUtility.cleanDatabase(sql2o);
         sql2oHallRepository = new Sql2oHallRepository(sql2o);
-        deleteAll();
-    }
-
-    private static void deleteAll() {
-        sql2oHallRepository.findAll().stream().map(Hall::getId).forEach(sql2oHallRepository::deleteById);
     }
 
     @AfterEach
     public void tearDown() {
-        deleteAll();
+        sql2oHallRepository.findAll().stream().map(Hall::getId).forEach(sql2oHallRepository::deleteById);
     }
 
     private static Hall makeHall(int seed) {

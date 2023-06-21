@@ -1,5 +1,7 @@
 package ru.job4j.cinema.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Query;
@@ -11,6 +13,7 @@ import java.util.Optional;
 
 @Repository
 public class Sql2oFileRepository implements FileRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Sql2oFileRepository.class.getName());
     private final Sql2o sql2o;
 
     public Sql2oFileRepository(Sql2o sql2o) {
@@ -18,7 +21,7 @@ public class Sql2oFileRepository implements FileRepository {
     }
 
     @Override
-    public File save(File file) {
+    public Optional<File> save(File file) {
         try (Connection connection = sql2o.open()) {
             String sql = "INSERT INTO files(name, path) VALUES (:name, :path)";
             Query query = connection.createQuery(sql, true)
@@ -26,8 +29,11 @@ public class Sql2oFileRepository implements FileRepository {
                     .addParameter("path", file.getPath());
             int generatedId = query.executeUpdate().getKey(Integer.class);
             file.setId(generatedId);
-            return file;
+            return Optional.of(file);
+        } catch (Exception e) {
+            LOGGER.warn("Файл с таким путем уже существует.", e);
         }
+        return Optional.empty();
     }
 
     @Override

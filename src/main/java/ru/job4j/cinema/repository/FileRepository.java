@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface FileRepository {
-    File save(File file);
+    Optional<File> save(File file);
 
     Collection<File> findAll();
 

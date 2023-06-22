@@ -50,6 +50,22 @@ public class Sql2oFileRepositoryTest {
     }
 
     @Test
+    public void whenSaveSeveralWithSameNameThenSaveOnlyFirst() {
+        String path = "path";
+        File file = new File(0, "name", path);
+        File file1 = new File(0, "name1", path);
+        File file2 = new File(0, "name2", path);
+
+        Optional<File> savedFileOptional = sql2oFileRepository.save(file);
+        Optional<File> savedFileOptional1 = sql2oFileRepository.save(file1);
+        Optional<File> savedFileOptional2 = sql2oFileRepository.save(file2);
+
+        assertThat(savedFileOptional).usingRecursiveComparison().isEqualTo(Optional.of(file));
+        assertThat(savedFileOptional1).isEqualTo(Optional.empty());
+        assertThat(savedFileOptional2).isEqualTo(Optional.empty());
+    }
+
+    @Test
     public void whenDontSaveThenNothingFound() {
         assertThat(sql2oFileRepository.findAll()).isEqualTo(Collections.emptyList());
         assertThat(sql2oFileRepository.findById(1)).isEqualTo(Optional.empty());

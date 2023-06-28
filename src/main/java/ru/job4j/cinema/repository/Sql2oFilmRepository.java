@@ -1,7 +1,5 @@
 package ru.job4j.cinema.repository;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Query;
@@ -20,7 +18,7 @@ public class Sql2oFilmRepository implements FilmRepository {
     }
 
     @Override
-    public Optional<Film> save(Film film) {
+    public Film save(Film film) {
         try (Connection connection = sql2o.open()) {
             String sql = """
                     INSERT INTO films(name, description, \"year\", genre_id, minimal_age, duration_in_minutes, file_id)
@@ -36,7 +34,7 @@ public class Sql2oFilmRepository implements FilmRepository {
                     .addParameter("fileId", film.getFileId());
             int generatedId = query.executeUpdate().getKey(Integer.class);
             film.setId(generatedId);
-            return Optional.of(film);
+            return film;
         }
     }
 

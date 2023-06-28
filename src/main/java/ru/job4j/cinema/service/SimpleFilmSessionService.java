@@ -21,7 +21,13 @@ public class SimpleFilmSessionService implements FilmSessionService {
     private final HallRepository hallRepository;
     private final TicketRepository ticketRepository;
 
-    public SimpleFilmSessionService(FilmSessionRepository filmSessionRepository, GenreRepository genreRepository, FilmRepository filmRepository, HallRepository hallRepository, TicketRepository ticketRepository) {
+    public SimpleFilmSessionService(
+            FilmSessionRepository filmSessionRepository,
+            GenreRepository genreRepository,
+            FilmRepository filmRepository,
+            HallRepository hallRepository,
+            TicketRepository ticketRepository
+    ) {
         this.filmSessionRepository = filmSessionRepository;
         this.genreRepository = genreRepository;
         this.filmRepository = filmRepository;

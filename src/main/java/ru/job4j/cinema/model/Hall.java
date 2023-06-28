@@ -14,6 +14,17 @@ public class Hall {
     private int placeCount;
     private String description;
 
+    public Hall() {
+    }
+
+    public Hall(int id, String name, int rowCount, int placeCount, String description) {
+        this.id = id;
+        this.name = name;
+        this.rowCount = rowCount;
+        this.placeCount = placeCount;
+        this.description = description;
+    }
+
     public int getId() {
         return id;
     }

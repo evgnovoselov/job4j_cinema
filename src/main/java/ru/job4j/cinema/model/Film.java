@@ -19,9 +19,6 @@ public class Film {
     private int durationInMinutes;
     private int fileId;
 
-    public Film() {
-    }
-
     public int getId() {
         return id;
     }

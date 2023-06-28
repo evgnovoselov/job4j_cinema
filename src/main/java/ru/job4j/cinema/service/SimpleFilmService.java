@@ -25,7 +25,8 @@ public class SimpleFilmService implements FilmService {
     @Override
     public Collection<FilmDto> findAll() {
         Collection<Film> films = filmRepository.findAll();
-        return films.stream().map(film -> createFilmDto(film, genreRepository.findAll())).toList();
+        Collection<Genre> genres = genreRepository.findAll();
+        return films.stream().map(film -> createFilmDto(film, genres)).toList();
     }
 
     @Override

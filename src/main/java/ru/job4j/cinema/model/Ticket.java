@@ -16,6 +16,17 @@ public class Ticket {
     private int placeNumber;
     private int userId;
 
+    public Ticket() {
+    }
+
+    public Ticket(int id, int sessionId, int rowNumber, int placeNumber, int userId) {
+        this.id = id;
+        this.sessionId = sessionId;
+        this.rowNumber = rowNumber;
+        this.placeNumber = placeNumber;
+        this.userId = userId;
+    }
+
     public int getId() {
         return id;
     }

@@ -15,15 +15,15 @@
         <tbody>
         <tr>
             <th scope="row">Фильм</th>
-            <td th:text="${filmSession.film.name}">Значение</td>
+            <td th:text="${filmSession.filmName}">Значение</td>
         </tr>
         <tr>
             <th scope="row">Продолжительность фильма</th>
-            <td th:text="${filmSession.film.durationInMinutes} + ' мин.'">Значение</td>
+            <td th:text="${filmSession.filmDurationInMinutes} + ' мин.'">Значение</td>
         </tr>
         <tr>
             <th scope="row">Ограничение по возрасту</th>
-            <td th:text="${filmSession.film.minimalAge} + '+'">Значение</td>
+            <td th:text="${filmSession.filmMinimalAge} + '+'">Значение</td>
         </tr>
         <tr>
             <th scope="row">Начало</th>
@@ -31,7 +31,7 @@
         </tr>
         <tr>
             <th scope="row">Зал</th>
-            <td th:text="${filmSession.hall.name}">Значение</td>
+            <td th:text="${filmSession.hallName}">Значение</td>
         </tr>
         <tr>
             <th scope="row">Ряд</th>

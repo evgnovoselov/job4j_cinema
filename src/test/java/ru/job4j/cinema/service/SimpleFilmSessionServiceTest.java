@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.job4j.cinema.dto.FilmSessionDto;
 import ru.job4j.cinema.dto.FilmSessionSetDto;
 import ru.job4j.cinema.dto.FilmSessionTimetableDto;
+import ru.job4j.cinema.dto.TicketDto;
 import ru.job4j.cinema.model.*;
 import ru.job4j.cinema.repository.*;
 
@@ -170,12 +171,16 @@ public class SimpleFilmSessionServiceTest {
 
         Optional<FilmSessionDto> expectedFilmSessionDto = Optional.of(new FilmSessionDto(
                 1,
-                film,
-                hall,
+                film.getName(),
+                film.getDurationInMinutes(),
+                film.getMinimalAge(),
+                hall.getName(),
+                hall.getRowCount(),
+                hall.getPlaceCount(),
                 DATE_TIME.plusHours(1),
                 DATE_TIME.plusHours(2),
                 101,
-                tickets
+                List.of(new TicketDto(1, 1, 1, 1, 1))
         ));
         assertThat(actualFilmSessionDto).usingRecursiveComparison().isEqualTo(expectedFilmSessionDto);
     }

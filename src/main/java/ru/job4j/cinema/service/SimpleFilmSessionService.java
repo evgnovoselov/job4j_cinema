@@ -4,9 +4,8 @@ import org.springframework.stereotype.Service;
 import ru.job4j.cinema.dto.FilmSessionDto;
 import ru.job4j.cinema.dto.FilmSessionSetDto;
 import ru.job4j.cinema.dto.FilmSessionTimetableDto;
-import ru.job4j.cinema.model.Film;
-import ru.job4j.cinema.model.FilmSession;
-import ru.job4j.cinema.model.Genre;
+import ru.job4j.cinema.dto.TicketDto;
+import ru.job4j.cinema.model.*;
 import ru.job4j.cinema.repository.*;
 
 import java.time.LocalDate;
@@ -116,14 +115,27 @@ public class SimpleFilmSessionService implements FilmSessionService {
             return Optional.empty();
         }
         FilmSession filmSession = filmSessionOptional.get();
+        Film film = filmRepository.findById(filmSession.getFilmId()).orElseThrow();
+        Hall hall = hallRepository.findById(filmSession.getHallsId()).orElseThrow();
+        Collection<Ticket> tickets = ticketRepository.findAllBySessionId(filmSession.getId());
         FilmSessionDto filmSessionDto = new FilmSessionDto(
                 filmSession.getId(),
-                filmRepository.findById(filmSession.getFilmId()).orElseThrow(),
-                hallRepository.findById(filmSession.getHallsId()).orElseThrow(),
+                film.getName(),
+                film.getDurationInMinutes(),
+                film.getMinimalAge(),
+                hall.getName(),
+                hall.getRowCount(),
+                hall.getPlaceCount(),
                 filmSession.getStartTime(),
                 filmSession.getEndTime(),
                 filmSession.getPrice(),
-                ticketRepository.findAllBySessionId(filmSession.getId())
+                tickets.stream().map(ticket -> new TicketDto(
+                        ticket.getId(),
+                        ticket.getSessionId(),
+                        ticket.getRowNumber(),
+                        ticket.getPlaceNumber(),
+                        ticket.getUserId()
+                )).toList()
         );
         return Optional.of(filmSessionDto);
     }

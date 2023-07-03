@@ -1,21 +1,21 @@
 package ru.job4j.cinema.dto;
 
-import ru.job4j.cinema.model.Film;
-import ru.job4j.cinema.model.Hall;
-import ru.job4j.cinema.model.Ticket;
-
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
 
 public record FilmSessionDto(
         int id,
-        Film film,
-        Hall hall,
+        String filmName,
+        int filmDurationInMinutes,
+        int filmMinimalAge,
+        String hallName,
+        int hallRowCount,
+        int hallPlaceCount,
         LocalDateTime startTime,
         LocalDateTime endTime,
         int price,
-        Collection<Ticket> tickets
+        Collection<TicketDto> tickets
 ) {
     @Override
     public boolean equals(Object o) {

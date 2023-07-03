@@ -7,6 +7,7 @@ import org.springframework.ui.ConcurrentModel;
 import ru.job4j.cinema.dto.FilmSessionDto;
 import ru.job4j.cinema.dto.FilmSessionSetDto;
 import ru.job4j.cinema.dto.FilmSessionTimetableDto;
+import ru.job4j.cinema.dto.TicketDto;
 import ru.job4j.cinema.model.Film;
 import ru.job4j.cinema.model.Hall;
 import ru.job4j.cinema.model.Ticket;
@@ -58,17 +59,23 @@ public class FilmSessionControllerTest {
     }
 
     private static FilmSessionDto makeFilmSessionDto(int seed) {
+        Film film = new Film();
+        Hall hall = new Hall(1, "hall", 3, 7, "description hall");
         return new FilmSessionDto(
                 seed,
-                new Film(),
-                new Hall(1, "hall", 3, 7, "description hall"),
+                film.getName(),
+                film.getDurationInMinutes(),
+                film.getMinimalAge(),
+                hall.getName(),
+                hall.getRowCount(),
+                hall.getPlaceCount(),
                 LocalDateTime.now().plusHours(seed),
                 LocalDateTime.now().plusHours(1).plusHours(seed),
                 100 + seed,
                 List.of(
-                        new Ticket(1, seed, 1, 3, 1),
-                        new Ticket(2, seed, 2, 2, 1),
-                        new Ticket(3, seed, 2, 3, 1)
+                        new TicketDto(1, seed, 1, 3, 1),
+                        new TicketDto(2, seed, 2, 2, 1),
+                        new TicketDto(3, seed, 2, 3, 1)
                 )
         );
     }

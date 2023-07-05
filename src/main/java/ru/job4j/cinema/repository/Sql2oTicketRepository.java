@@ -36,7 +36,7 @@ public class Sql2oTicketRepository implements TicketRepository {
             ticket.setId(generatedId);
             return Optional.of(ticket);
         } catch (Exception e) {
-            LOGGER.warn("Билет на это место уже приобретено.", e);
+            LOGGER.error("Билет на это место уже приобретено.", e);
         }
         return Optional.empty();
     }

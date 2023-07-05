@@ -33,7 +33,7 @@ public class Sql2oGenreRepository implements GenreRepository {
             genre.setId(generatedId);
             return Optional.of(genre);
         } catch (Exception e) {
-            LOGGER.warn("Жанр с таким именем уже существует.", e);
+            LOGGER.error("Жанр с таким именем уже существует.", e);
         }
         return Optional.empty();
     }

@@ -28,16 +28,16 @@ public class SimpleFilmServiceTest {
     }
 
     private static Film makeFilm(int seed) {
-        return new Film() {{
-            setId(seed);
-            setName("name" + seed);
-            setDescription("description" + seed);
-            setYear(2000);
-            setGenreId(1);
-            setMinimalAge(16);
-            setDurationInMinutes(120);
-            setFileId(1);
-        }};
+        return new Film.Builder()
+                .buildId(seed)
+                .buildName("name" + seed)
+                .buildDescription("description" + seed)
+                .buildYear(2000)
+                .buildGenreId(1)
+                .buildMinimalAge(16)
+                .buildDurationInMinutes(120)
+                .buildFileId(1)
+                .build();
     }
 
     @Test

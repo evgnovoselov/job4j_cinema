@@ -29,12 +29,13 @@ public class Sql2oTicketRepositoryTest {
         testUser = new Sql2oUserRepository(sql2o).save(new User(0, "fullName", "name@example.com", "password")).orElseThrow();
         Genre genre = new Sql2oGenreRepository(sql2o).save(new Genre(0, "genreName")).orElseThrow();
         File file = new Sql2oFileRepository(sql2o).save(new File(0, "name", "path")).orElseThrow();
-        Film film = new Sql2oFilmRepository(sql2o).save(new Film() {{
-            setName("filmName");
-            setDescription("filmDescription");
-            setGenreId(genre.getId());
-            setFileId(file.getId());
-        }});
+        Film film = new Sql2oFilmRepository(sql2o).save(new Film.Builder()
+                .buildName("filmName")
+                .buildDescription("filmDescription")
+                .buildGenreId(genre.getId())
+                .buildFileId(file.getId())
+                .build()
+        );
         Hall hall = new Sql2oHallRepository(sql2o).save(new Hall(0, "nameHall", 3, 7, "description hall"));
         testFilmSession = new Sql2oFilmSessionRepository(sql2o).save(new FilmSession(
                 0,

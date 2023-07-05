@@ -31,7 +31,7 @@ public class Sql2oFileRepository implements FileRepository {
             file.setId(generatedId);
             return Optional.of(file);
         } catch (Exception e) {
-            LOGGER.warn("Файл с таким путем уже существует.", e);
+            LOGGER.error("Файл с таким путем уже существует.", e);
         }
         return Optional.empty();
     }

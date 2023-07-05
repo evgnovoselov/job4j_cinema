@@ -15,7 +15,7 @@ import java.util.Set;
 @Order(1)
 public class AuthorizationFilter extends HttpFilter {
     private static final Set<String> URLS_PROTECT = Set.of(
-            "/film-sessions/buy-ticket"
+            "/tickets"
     );
 
     @Override

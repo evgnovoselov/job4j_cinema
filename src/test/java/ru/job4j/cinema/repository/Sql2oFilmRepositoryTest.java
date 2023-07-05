@@ -37,16 +37,16 @@ public class Sql2oFilmRepositoryTest {
     }
 
     private static Film makeFilm(int seed) {
-        return new Film() {{
-            setId(0);
-            setName("name" + seed);
-            setDescription("description" + seed);
-            setYear(2000 + (seed % 100));
-            setGenreId(testGenre.getId());
-            setMinimalAge(10 + (seed % 10));
-            setDurationInMinutes(100 + (seed % 100));
-            setFileId(testFile.getId());
-        }};
+        return new Film.Builder()
+                .buildId(seed)
+                .buildName("name" + seed)
+                .buildDescription("description" + seed)
+                .buildYear(2000)
+                .buildGenreId(testGenre.getId())
+                .buildMinimalAge(16)
+                .buildDurationInMinutes(120)
+                .buildFileId(testFile.getId())
+                .build();
     }
 
     @Test

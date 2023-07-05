@@ -57,20 +57,24 @@ public class SimpleFilmSessionServiceTest {
         }};
     }
 
+    private static Film makeFilm() {
+        return new Film.Builder()
+                .buildId(1)
+                .buildName("name")
+                .buildDescription("description")
+                .buildYear(2000)
+                .buildGenreId(1)
+                .buildMinimalAge(16)
+                .buildDurationInMinutes(120)
+                .buildFileId(1)
+                .build();
+    }
+
     @Test
     public void whenFindAllByDateThenGetFilmSessionSetDtoSetByDate() {
         List<FilmSession> filmSessions = List.of(makeFilmSession(5), makeFilmSession(3));
         when(filmSessionRepository.findAllByDate(any())).thenReturn(filmSessions);
-        Film film = new Film() {{
-            setId(1);
-            setName("name");
-            setDescription("description");
-            setYear(2000);
-            setGenreId(1);
-            setMinimalAge(16);
-            setDurationInMinutes(120);
-            setFileId(1);
-        }};
+        Film film = makeFilm();
         when(filmRepository.findById(anyInt())).thenReturn(Optional.of(film));
         when(genreRepository.findAll()).thenReturn(List.of(new Genre(1, "name"), new Genre(2, "name2")));
 
@@ -115,16 +119,7 @@ public class SimpleFilmSessionServiceTest {
         filmSession.setEndTime(filmSession.getEndTime().plusHours(5));
         List<FilmSession> filmSessions = List.of(makeFilmSession(7), filmSession);
         when(filmSessionRepository.findAllByDate(any())).thenReturn(filmSessions);
-        Film film = new Film() {{
-            setId(1);
-            setName("name");
-            setDescription("description");
-            setYear(2000);
-            setGenreId(1);
-            setMinimalAge(16);
-            setDurationInMinutes(120);
-            setFileId(1);
-        }};
+        Film film = makeFilm();
         when(filmRepository.findById(anyInt())).thenReturn(Optional.of(film));
         when(genreRepository.findAll()).thenReturn(List.of(new Genre(1, "name"), new Genre(2, "name2")));
 
@@ -151,16 +146,7 @@ public class SimpleFilmSessionServiceTest {
     @Test
     public void whenFindByIdThenGet() {
         when(filmSessionRepository.findById(anyInt())).thenReturn(Optional.of(makeFilmSession(1)));
-        Film film = new Film() {{
-            setId(1);
-            setName("name");
-            setDescription("description");
-            setYear(2000);
-            setGenreId(1);
-            setMinimalAge(16);
-            setDurationInMinutes(120);
-            setFileId(1);
-        }};
+        Film film = makeFilm();
         when(filmRepository.findById(anyInt())).thenReturn(Optional.of(film));
         Hall hall = new Hall(1, "nameHall", 3, 9, "descriptionHall");
         when(hallRepository.findById(anyInt())).thenReturn(Optional.of(hall));

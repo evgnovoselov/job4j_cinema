@@ -1,15 +1,14 @@
 package ru.job4j.cinema.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.cinema.dto.FilmSessionDto;
 import ru.job4j.cinema.model.Ticket;
-import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.service.FilmSessionService;
-import ru.job4j.cinema.service.TicketService;
-import ru.job4j.cinema.service.UserService;
 import ru.job4j.cinema.utility.PlaceUtility;
 
 import java.time.LocalDate;
@@ -19,13 +18,9 @@ import java.util.Optional;
 @RequestMapping("/film-sessions")
 public class FilmSessionController {
     private final FilmSessionService filmSessionService;
-    private final TicketService ticketService;
-    private final UserService userService;
 
-    public FilmSessionController(FilmSessionService filmSessionService, TicketService ticketService, UserService userService) {
+    public FilmSessionController(FilmSessionService filmSessionService) {
         this.filmSessionService = filmSessionService;
-        this.ticketService = ticketService;
-        this.userService = userService;
     }
 
     @GetMapping
@@ -53,28 +48,5 @@ public class FilmSessionController {
         model.addAttribute("mapPlaces", availablePlaces);
         model.addAttribute("placesSize", availablePlaces[0].length);
         return "film-sessions/one";
-    }
-
-    @PostMapping("/buy-ticket")
-    public String processBuyTicket(@ModelAttribute Ticket ticket, Model model, HttpSession session) {
-        FilmSessionDto filmSessionDto;
-        Optional<Ticket> ticketOptional;
-        User user = (User) session.getAttribute("user");
-        try {
-            ticket.setUserId(user != null ? user.getId() : 0);
-            ticketOptional = ticketService.save(ticket);
-            user = userService.findById(ticket.getUserId()).orElse(new User(0, "Гость", "", ""));
-            if (ticketOptional.isEmpty()) {
-                throw new IllegalArgumentException("Не удалось приобрести билет на заданное место. Вероятно оно уже занято. Перейдите на страницу бронирования билетов и попробуйте снова.");
-            }
-            filmSessionDto = filmSessionService.findById(ticket.getSessionId()).orElseThrow();
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-            return "film-sessions/error-buy-ticket";
-        }
-        model.addAttribute("ticket", ticketOptional.get());
-        model.addAttribute("filmSession", filmSessionDto);
-        model.addAttribute("user", user);
-        return "film-sessions/success-buy-ticket";
     }
 }

@@ -1,6 +1,5 @@
 package ru.job4j.cinema.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.ConcurrentModel;
@@ -11,10 +10,7 @@ import ru.job4j.cinema.dto.TicketDto;
 import ru.job4j.cinema.model.Film;
 import ru.job4j.cinema.model.Hall;
 import ru.job4j.cinema.model.Ticket;
-import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.service.FilmSessionService;
-import ru.job4j.cinema.service.TicketService;
-import ru.job4j.cinema.service.UserService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,15 +26,11 @@ import static org.mockito.Mockito.when;
 public class FilmSessionControllerTest {
     private FilmSessionController filmSessionController;
     private FilmSessionService filmSessionService;
-    private TicketService ticketService;
-    private UserService userService;
 
     @BeforeEach
     public void setUp() {
         filmSessionService = mock(FilmSessionService.class);
-        ticketService = mock(TicketService.class);
-        userService = mock(UserService.class);
-        filmSessionController = new FilmSessionController(filmSessionService, ticketService, userService);
+        filmSessionController = new FilmSessionController(filmSessionService);
     }
 
     private static FilmSessionSetDto makeFilmSessionSetDto(int seed) {
@@ -156,58 +148,5 @@ public class FilmSessionControllerTest {
 
         assertThat(view).isEqualTo("error/404");
         assertThat(message).isEqualTo("Данный сеанс фильма не найден в системе.");
-    }
-
-    @Test
-    public void whenBuyTicketWithRightDataThenSuccessBuyTicket() {
-        Ticket ticket = new Ticket(1, 1, 1, 4, 1);
-        when(ticketService.save(ticket)).thenReturn(Optional.of(ticket));
-        User user = new User(ticket.getUserId(), "name", "name@example.com", "password");
-        when(userService.findById(ticket.getUserId())).thenReturn(Optional.of(user));
-        FilmSessionDto filmSessionDto = makeFilmSessionDto(1);
-        when(filmSessionService.findById(ticket.getSessionId())).thenReturn(Optional.of(filmSessionDto));
-        ConcurrentModel model = new ConcurrentModel();
-        HttpSession session = mock(HttpSession.class);
-        when(session.getAttribute("user")).thenReturn(user);
-
-        String view = filmSessionController.processBuyTicket(ticket, model, session);
-        Ticket actualTicket = (Ticket) model.getAttribute("ticket");
-        FilmSessionDto actualFilmSessionDto = (FilmSessionDto) model.getAttribute("filmSession");
-        User actualUser = (User) model.getAttribute("user");
-
-        assertThat(view).isEqualTo("film-sessions/success-buy-ticket");
-        assertThat(actualTicket).isEqualTo(ticket);
-        assertThat(actualFilmSessionDto).isEqualTo(filmSessionDto);
-        assertThat(actualUser).isEqualTo(user);
-    }
-
-    @Test
-    public void whenBuyTicketIfNotHaveUserThenViewErrorPage() {
-        Ticket ticket = new Ticket();
-        ConcurrentModel model = new ConcurrentModel();
-        HttpSession session = mock(HttpSession.class);
-        when(session.getAttribute("user")).thenReturn(null);
-        when(ticketService.save(ticket)).thenReturn(Optional.empty());
-        when(userService.findById(anyInt())).thenReturn(Optional.empty());
-
-        String view = filmSessionController.processBuyTicket(ticket, model, session);
-        String error = (String) model.getAttribute("error");
-
-        assertThat(view).isEqualTo("film-sessions/error-buy-ticket");
-        assertThat(error).isEqualTo("Не удалось приобрести билет на заданное место. Вероятно оно уже занято. Перейдите на страницу бронирования билетов и попробуйте снова.");
-    }
-
-    @Test
-    public void whenBuyTicketIfPlaceOccupiedThenViewErrorPage() {
-        Ticket ticket = new Ticket();
-        ConcurrentModel model = new ConcurrentModel();
-        HttpSession session = mock(HttpSession.class);
-        when(ticketService.save(ticket)).thenReturn(Optional.empty());
-
-        String view = filmSessionController.processBuyTicket(ticket, model, session);
-        String error = (String) model.getAttribute("error");
-
-        assertThat(view).isEqualTo("film-sessions/error-buy-ticket");
-        assertThat(error).isEqualTo("Не удалось приобрести билет на заданное место. Вероятно оно уже занято. Перейдите на страницу бронирования билетов и попробуйте снова.");
     }
 }

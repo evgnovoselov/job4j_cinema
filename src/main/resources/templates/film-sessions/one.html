@@ -44,7 +44,7 @@
         <li><i class="bi bi-square-fill"></i> - занято</li>
     </ul>
     <p>Выберите место:</p>
-    <form th:object="${ticket}" th:action="@{/film-sessions/buy-ticket}" method="post">
+    <form th:object="${ticket}" th:action="@{/tickets/buy}" method="post">
         <input type="hidden" th:field="*{sessionId}">
         <div class="row">
             <div class="col">

@@ -15,7 +15,7 @@ public record FilmSessionDto(
         LocalDateTime startTime,
         LocalDateTime endTime,
         int price,
-        Collection<TicketDto> tickets
+        Collection<TicketPlaceDto> tickets
 ) {
     @Override
     public boolean equals(Object o) {

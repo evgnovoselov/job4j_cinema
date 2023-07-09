@@ -1,10 +1,12 @@
 package ru.job4j.cinema.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.dto.FilmSessionDto;
 import ru.job4j.cinema.dto.FilmSessionSetDto;
 import ru.job4j.cinema.dto.FilmSessionTimetableDto;
-import ru.job4j.cinema.dto.TicketDto;
+import ru.job4j.cinema.dto.TicketPlaceDto;
 import ru.job4j.cinema.model.*;
 import ru.job4j.cinema.repository.*;
 
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class SimpleFilmSessionService implements FilmSessionService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleFilmSessionService.class.getName());
     private final FilmSessionRepository filmSessionRepository;
     private final GenreRepository genreRepository;
     private final FilmRepository filmRepository;
@@ -110,33 +113,37 @@ public class SimpleFilmSessionService implements FilmSessionService {
 
     @Override
     public Optional<FilmSessionDto> findById(int id) {
-        Optional<FilmSession> filmSessionOptional = filmSessionRepository.findById(id);
-        if (filmSessionOptional.isEmpty()) {
-            return Optional.empty();
+        try {
+            Optional<FilmSession> filmSessionOptional = filmSessionRepository.findById(id);
+            if (filmSessionOptional.isEmpty()) {
+                throw new IllegalArgumentException("Сеанс фильма не найден.");
+            }
+            FilmSession filmSession = filmSessionOptional.get();
+            Film film = filmRepository.findById(filmSession.getFilmId()).orElseThrow();
+            Hall hall = hallRepository.findById(filmSession.getHallsId()).orElseThrow();
+            Collection<Ticket> tickets = ticketRepository.findAllBySessionId(filmSession.getId());
+            FilmSessionDto filmSessionDto = new FilmSessionDto(
+                    filmSession.getId(),
+                    film.getName(),
+                    film.getDurationInMinutes(),
+                    film.getMinimalAge(),
+                    hall.getName(),
+                    hall.getRowCount(),
+                    hall.getPlaceCount(),
+                    filmSession.getStartTime(),
+                    filmSession.getEndTime(),
+                    filmSession.getPrice(),
+                    tickets.stream().map(ticket -> new TicketPlaceDto(
+                            ticket.getId(),
+                            filmSession.getId(),
+                            ticket.getRowNumber(),
+                            ticket.getPlaceNumber()
+                    )).toList()
+            );
+            return Optional.of(filmSessionDto);
+        } catch (Exception e) {
+            LOGGER.error("Произошла ошибка поиска сеанса фильма: ", e);
         }
-        FilmSession filmSession = filmSessionOptional.get();
-        Film film = filmRepository.findById(filmSession.getFilmId()).orElseThrow();
-        Hall hall = hallRepository.findById(filmSession.getHallsId()).orElseThrow();
-        Collection<Ticket> tickets = ticketRepository.findAllBySessionId(filmSession.getId());
-        FilmSessionDto filmSessionDto = new FilmSessionDto(
-                filmSession.getId(),
-                film.getName(),
-                film.getDurationInMinutes(),
-                film.getMinimalAge(),
-                hall.getName(),
-                hall.getRowCount(),
-                hall.getPlaceCount(),
-                filmSession.getStartTime(),
-                filmSession.getEndTime(),
-                filmSession.getPrice(),
-                tickets.stream().map(ticket -> new TicketDto(
-                        ticket.getId(),
-                        ticket.getSessionId(),
-                        ticket.getRowNumber(),
-                        ticket.getPlaceNumber(),
-                        ticket.getUserId()
-                )).toList()
-        );
-        return Optional.of(filmSessionDto);
+        return Optional.empty();
     }
 }

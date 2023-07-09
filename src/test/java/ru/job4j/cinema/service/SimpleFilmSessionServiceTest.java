@@ -2,10 +2,7 @@ package ru.job4j.cinema.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.job4j.cinema.dto.FilmSessionDto;
-import ru.job4j.cinema.dto.FilmSessionSetDto;
-import ru.job4j.cinema.dto.FilmSessionTimetableDto;
-import ru.job4j.cinema.dto.TicketDto;
+import ru.job4j.cinema.dto.*;
 import ru.job4j.cinema.model.*;
 import ru.job4j.cinema.repository.*;
 
@@ -166,7 +163,7 @@ public class SimpleFilmSessionServiceTest {
                 DATE_TIME.plusHours(1),
                 DATE_TIME.plusHours(2),
                 101,
-                List.of(new TicketDto(1, 1, 1, 1, 1))
+                List.of(new TicketPlaceDto(1, 1, 1, 1))
         ));
         assertThat(actualFilmSessionDto).usingRecursiveComparison().isEqualTo(expectedFilmSessionDto);
     }

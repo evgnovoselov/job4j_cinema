@@ -3,10 +3,7 @@ package ru.job4j.cinema.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.ConcurrentModel;
-import ru.job4j.cinema.dto.FilmSessionDto;
-import ru.job4j.cinema.dto.FilmSessionSetDto;
-import ru.job4j.cinema.dto.FilmSessionTimetableDto;
-import ru.job4j.cinema.dto.TicketDto;
+import ru.job4j.cinema.dto.*;
 import ru.job4j.cinema.model.Film;
 import ru.job4j.cinema.model.Hall;
 import ru.job4j.cinema.model.Ticket;
@@ -65,9 +62,9 @@ public class FilmSessionControllerTest {
                 LocalDateTime.now().plusHours(1).plusHours(seed),
                 100 + seed,
                 List.of(
-                        new TicketDto(1, seed, 1, 3, 1),
-                        new TicketDto(2, seed, 2, 2, 1),
-                        new TicketDto(3, seed, 2, 3, 1)
+                        new TicketPlaceDto(1, seed, 1, 3),
+                        new TicketPlaceDto(2, seed, 2, 2),
+                        new TicketPlaceDto(3, seed, 2, 3)
                 )
         );
     }

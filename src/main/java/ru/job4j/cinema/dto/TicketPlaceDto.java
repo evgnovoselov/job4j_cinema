@@ -1,20 +1,12 @@
 package ru.job4j.cinema.dto;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
-public record TicketDto(
+public record TicketPlaceDto(
         int id,
+        int filmSessionId,
         int rowNumber,
-        int placeNumber,
-        String filmName,
-        int filmDurationInMinutes,
-        int filmMinimalAge,
-        int sessionId,
-        LocalDateTime sessionStartTime,
-        String hallName,
-        int userId,
-        String userFullName
+        int placeNumber
 ) {
     @Override
     public boolean equals(Object o) {
@@ -24,7 +16,7 @@ public record TicketDto(
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        TicketDto ticketDto = (TicketDto) o;
+        TicketPlaceDto ticketDto = (TicketPlaceDto) o;
         return id == ticketDto.id;
     }
 

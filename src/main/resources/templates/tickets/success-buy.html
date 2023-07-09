@@ -15,23 +15,23 @@
         <tbody>
         <tr>
             <th scope="row">Фильм</th>
-            <td th:text="${filmSession.filmName}">Значение</td>
+            <td th:text="${ticket.filmName}">Значение</td>
         </tr>
         <tr>
             <th scope="row">Продолжительность фильма</th>
-            <td th:text="${filmSession.filmDurationInMinutes} + ' мин.'">Значение</td>
+            <td th:text="${ticket.filmDurationInMinutes} + ' мин.'">Значение</td>
         </tr>
         <tr>
             <th scope="row">Ограничение по возрасту</th>
-            <td th:text="${filmSession.filmMinimalAge} + '+'">Значение</td>
+            <td th:text="${ticket.filmMinimalAge} + '+'">Значение</td>
         </tr>
         <tr>
             <th scope="row">Начало</th>
-            <td th:text="${#temporals.format(filmSession.startTime, 'dd.MM.yyyy hh:mm')}">Значение</td>
+            <td th:text="${#temporals.format(ticket.sessionStartTime, 'dd.MM.yyyy hh:mm')}">Значение</td>
         </tr>
         <tr>
             <th scope="row">Зал</th>
-            <td th:text="${filmSession.hallName}">Значение</td>
+            <td th:text="${ticket.hallName}">Значение</td>
         </tr>
         <tr>
             <th scope="row">Ряд</th>
@@ -43,11 +43,11 @@
         </tr>
         <tr>
             <th scope="row">Имя владельца</th>
-            <td th:text="${user.fullName}">Значение</td>
+            <td th:text="${ticket.userFullName}">Значение</td>
         </tr>
         <tr>
             <th scope="row">Идентификатор владельца</th>
-            <td th:text="${user.id}">Значение</td>
+            <td th:text="${ticket.userId}">Значение</td>
         </tr>
         </tbody>
     </table>

@@ -8,7 +8,7 @@
 <div class="container">
     <h1>Покупка билета</h1>
     <h2><span th:text="${filmSession.filmName}">Звездная пыль</span>, начало сеанса
-        <u th:text="${#temporals.format(filmSession.startTime,'dd.MM.yyyy hh:mm')}">29.05.2023 11:30</u></h2>
+        <u th:text="${#temporals.format(filmSession.startTime,'dd.MM.yyyy HH:mm')}">29.05.2023 11:30</u></h2>
     <p>Доступные места:</p>
     <table class="text-center mb-3">
         <thead>
